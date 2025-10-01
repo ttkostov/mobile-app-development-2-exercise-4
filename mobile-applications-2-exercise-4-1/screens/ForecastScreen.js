@@ -45,7 +45,7 @@ export default function ForecastScreen({route, navigation}) {
                     style={styles.scrollViewContainer}>
             <SafeAreaView style={styles.container}>
                 <KeyboardAvoidingView style={styles.screen} behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
-                    <Header navigation={navigation} title='7-day forecast' showBackButton={true}/>
+                    <Header navigation={navigation} title='Hourly forecast' showBackButton={true}/>
                     <View style={styles.weatherContainer}>
                         <View style={styles.weatherDetailsContainer}>
                             <ForecastPanel forecastData={weatherForecastData}/>
