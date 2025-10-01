@@ -26,7 +26,7 @@ export default function CityInput({value, onChangeText, onClear, onSubmit}) {
                     mode="flat"
                     style={styles.textInput}
                     label='City'
-                    placeholder='Helsinki'
+                    placeholder='e.g. Berlin'
                     onChangeText={onChangeText}
                     onSubmitEditing={onSubmit}
                     value={value}
