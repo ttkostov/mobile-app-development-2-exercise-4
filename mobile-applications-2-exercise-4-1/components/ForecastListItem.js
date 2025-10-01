@@ -17,7 +17,7 @@ export default function ForecastListItem({forecastDataItem}) {
             alignItems: 'center',
             justifyContent: 'space-between',
             padding: 10,
-            width: "100%"
+            width: "100%",
         },
         forecastContainer: {
             flexDirection: 'row',
@@ -41,6 +41,10 @@ export default function ForecastListItem({forecastDataItem}) {
             color: theme.colors.onSurface,
             fontWeight: "bold"
         },
+        hour: {
+            color: theme.colors.onSurface,
+            fontStyle: 'italic'
+        },
         details: {
             color: theme.colors.onSurface,
         }
@@ -48,7 +52,11 @@ export default function ForecastListItem({forecastDataItem}) {
 
     return (
         <View style={styles.container}>
-            <Text style={styles.day}>{forecastDataItem.day}</Text>
+            <View>
+                <Text style={styles.day}>{forecastDataItem.day}</Text>
+                <Text style={styles.hour}>{forecastDataItem.hour}</Text>
+            </View>
+
             <View style={styles.forecastContainer}>
                 <Tooltip title={getWeatherDescription(forecastDataItem.code)}>
                     <Text style={styles.weatherCondition}>{getWeatherEmoji(forecastDataItem.code)}</Text>
