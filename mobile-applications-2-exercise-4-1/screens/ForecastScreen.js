@@ -1,4 +1,4 @@
-import {View, StyleSheet, KeyboardAvoidingView, ActivityIndicator, ScrollView} from 'react-native';
+import {View, StyleSheet, KeyboardAvoidingView, ScrollView} from 'react-native';
 import Header from '../components/Header.js';
 import {Platform} from "react-native";
 import {useTheme} from "react-native-paper";

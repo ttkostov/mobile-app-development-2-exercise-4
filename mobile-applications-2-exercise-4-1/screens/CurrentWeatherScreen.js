@@ -12,7 +12,7 @@ import {MOCK_WEATHER_WITH_FORECAST} from "../utils/mockWeather";
 import {SafeAreaView} from "react-native-safe-area-context";
 import {
     convertApiCurrentWeatherToMockData,
-    convertApiForecastWeatherToMockData, getForecastRequestUrl, getRequestUrl,
+    convertApiForecastWeatherToMockData, getForecastRequestUrl,
     getStationIdFromCity
 } from "../utils/BrightSkyApiHelper";
 
