@@ -23,3 +23,27 @@
 
      return descriptionMap[code] ?? 'Weather conditions unavailable'; // fallback if unknown code
  }
+
+ /**
+  * Used to match the icons provided from the BrightSky API. More info on the possible icons in the link below.
+  * @link https://brightsky.dev/docs/#/operations/getCurrentWeather
+  * @param icon from the API
+  */
+ export function getWeatherCode(icon) {
+     const conditionMap = {
+         "clear-day": 2,
+         "clear-night": 2,
+         "partly-cloudy-day": 1,
+         "partly-cloudy-night": 1,
+         "cloudy": 1,
+         "fog": 6,
+         "wind": 1,
+         "rain": 3,
+         "sleet": 3,
+         "snow": 5,
+         "hail": 5,
+         "thunderstorm": 4,
+         "null": null
+     };
+     return conditionMap[icon] ?? 0;
+ }
