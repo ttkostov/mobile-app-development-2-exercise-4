@@ -10,11 +10,15 @@ import {useTheme} from "react-native-paper";
 import WeatherPanel from "../components/WeatherPanel";
 import {MOCK_WEATHER_WITH_FORECAST} from "../utils/mockWeather";
 import {SafeAreaView} from "react-native-safe-area-context";
+import {
+    convertApiCurrentWeatherToMockData,
+    convertApiForecastWeatherToMockData, getForecastRequestUrl, getRequestUrl,
+    getStationIdFromCity
+} from "../utils/BrightSkyApiHelper";
 
 export default function CurrentWeatherScreen({navigation, toggleTheme}) {
 
     const theme = useTheme();
-
     const styles = StyleSheet.create({
         screen: {
             flex: 1,
@@ -30,8 +34,7 @@ export default function CurrentWeatherScreen({navigation, toggleTheme}) {
         weatherDetailsContainer: {
             flex: 3
         },
-        scrollViewContentContainer: {
-        },
+        scrollViewContentContainer: {},
         scrollViewContainer: {
             flex: 1,
             backgroundColor: theme.colors.background,
@@ -49,7 +52,7 @@ export default function CurrentWeatherScreen({navigation, toggleTheme}) {
     const [snackBarVisible, setSnackBarVisible] = useState(false);
     const [loading, setLoading] = useState(false);
     const [city, setCity] = useState('');
-    const [weatherData, setWeatherData] = useState(MOCK_WEATHER_WITH_FORECAST[0]);
+    const [weatherData, setWeatherData] = useState(null);
     const showDialog = () => setAboutDialogVisible(true);
     const hideDialog = () => setAboutDialogVisible(false);
 
@@ -67,10 +70,28 @@ export default function CurrentWeatherScreen({navigation, toggleTheme}) {
         if (city === '')
             return;
         const cityIndex = MOCK_WEATHER_WITH_FORECAST.findIndex(entry => entry.city.toLowerCase() === city.toLowerCase());
-        console.log(cityIndex);
         if (cityIndex >= 0) {
             setWeatherData(MOCK_WEATHER_WITH_FORECAST[cityIndex]);
         } else setWeatherData(undefined);
+    }
+
+    const updateWeatherFromAPI = async () => {
+        try {
+            setLoading(true);
+            const response = await fetch(getForecastRequestUrl(city));
+            if(response.status !== 200) {
+                setWeatherData(null);
+                setLoading(false);
+                return;
+            }
+            const convertedWeatherData = convertApiForecastWeatherToMockData(await response.json());
+            setWeatherData(convertedWeatherData);
+            setLoading(false);
+        } catch (error) {
+            setWeatherData(null);
+            setLoading(false);
+            console.log(error);
+        }
     }
 
     const clearCityInput = () => {
@@ -85,7 +106,7 @@ export default function CurrentWeatherScreen({navigation, toggleTheme}) {
                     <Header title='Current Weather' toggleTheme={toggleTheme} showAboutDialog={showDialog}/>
                     <View style={styles.weatherContainer}>
                         <CityInputPanel cityValue={city}
-                                        onRefresh={updateWeather}
+                                        onRefresh={updateWeatherFromAPI}
                                         onClearCityInput={clearCityInput}
                                         onChangeCity={setCity}
                                         onToggleSnackbar={hideDialog}/>
